@@ -212,7 +212,7 @@ class Disc(ThreeDScene):
 
         # comment to remove discs
         self.wait(0.5)
-        cylinders = self.gen_x_cylinder_riemann(weirdfunc, 0, 5, 2, axes)
+        cylinders = self.gen_x_cylinder_riemann(weirdfunc, 0, 5, 10, axes)
         riemann_copy = riemann.copy()
         self.add(riemann_copy)
         self.play(Transform(riemann, cylinders))
@@ -220,7 +220,7 @@ class Disc(ThreeDScene):
         # end comment to remove discs
 
         self.wait(2)
-        self.move_camera(phi=60 * DEGREES, theta=30 * DEGREES + 0.25 * 2, zoom=0.6, run_time=1.5, frame_center=[0, 0, 3])
+        self.move_camera(phi=60 * DEGREES, theta=30 * DEGREES + 0.25 * (2 + 0.5), zoom=0.6, run_time=1.5, frame_center=[0, 0, 3])
             
         disc_info1 = MathTex(r"\text{Cylinder radius}=\text{Rectangle height}=f(x_i)")
         disc_info1.scale(0.8)
@@ -272,14 +272,14 @@ class Disc(ThreeDScene):
 
         self.wait(2)
 
-        for i in range(6, 62, 5):
+        for i in range(11, 62, 5):
             cylinders_new = self.gen_x_cylinder_riemann(weirdfunc, 0, 5, i, axes)
             disc_info4_new = MathTex(r"\text{Volume}\approx \sum_{i=1}^{" + str(i) + r"} \pi (f(x_i))^2 \Delta x")
             disc_info4_new.scale(0.8)
             disc_info4_new.move_to(disc_info4)
 
             self.play(ChangeSpeed(AnimationGroup(
-                Transform(cylinders, cylinders_new),
+                Transform(riemann, cylinders_new),
                 Transform(disc_info4, disc_info4_new)
             ), speedinfo={0: 2 if i < 25 else 5}, rate_func=linear))
 
