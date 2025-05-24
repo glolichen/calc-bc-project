@@ -109,7 +109,7 @@ class Disc(ThreeDScene):
         )
         surface.set_fill(RED)
         self.play(Create(surface))
-        self.wait(2)
+        self.wait(8)
 
         self.move_camera(
             phi = 0 * DEGREES,
@@ -287,26 +287,27 @@ class Disc(ThreeDScene):
 
         self.wait(1)
         
-        skibidi = MathTex(r"A=\lim_{n\to\infty} \sum_{i=1}^{n}\pi(f(x_i))^2\Delta x")
-        skibidi.to_edge(UP)
+        skibidi = MathTex(r"V=\lim_{n\to\infty} \sum_{i=1}^{n}\pi(f(x_i))^2\Delta x")
+        skibidi.move_to(disc_info4)
+        skibidi.scale(0.8)
         self.play(Transform(disc_info4, skibidi))
-        
+
         self.wait(2)
 
-        disc_info5 = MathTex(r"\implies \text{Volume}=\int_{a}^{b} \pi (f(x))^2 \mathrm dx", color=YELLOW_B)
+        disc_info5 = MathTex(r"\implies V=\int_{a}^{b} \pi (f(x))^2 \mathrm dx", color=YELLOW_B)
         disc_info5.next_to(disc_info4, DOWN)
         self.add_fixed_in_frame_mobjects(disc_info5)
         self.play(Write(disc_info5))
-        
+
         self.wait(1)
 
-        disc_info5_new = MathTex(r"\implies \text{Volume}=\pi\int_{a}^{b} (f(x))^2 \mathrm dx", color=YELLOW_B)
+        disc_info5_new = MathTex(r"\implies V=\pi\int_{a}^{b} (f(x))^2 \mathrm dx", color=YELLOW_B)
         disc_info5_new.next_to(disc_info4, DOWN)
         self.play(Transform(disc_info5, disc_info5_new))
-        
+
         formula_box = Rectangle(width=disc_info5.width + 0.25, height=disc_info5.height + 0.25, color=YELLOW_B)
         formula_box.move_to(disc_info5)
         self.add_fixed_in_frame_mobjects(formula_box)
         self.play(ChangeSpeed(Create(formula_box), speedinfo={0: 0.75}))
-        
+
         self.wait(4)
