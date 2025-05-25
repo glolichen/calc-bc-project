@@ -51,10 +51,10 @@ class SurfaceArea(ThreeDScene):
         return cones
 
     def construct(self):
-        # text = Tex("Surface Area").scale(2)
-        # self.play(Write(text))
-        # self.wait(1)
-        # self.play(Unwrite(text))
+        text = Tex("Surface Area").scale(2)
+        self.play(Write(text))
+        self.wait(1)
+        self.play(Unwrite(text))
 
         axes = ThreeDAxes(
             x_range = [0, 6],
@@ -109,11 +109,11 @@ class SurfaceArea(ThreeDScene):
         # self.play(Write(display_text))
         #
         # self.wait(3)
-        # 
+        #
         # display_text_new = Tex(r"Divide surface into \underline{truncated cones}")
         # display_text_new.to_edge(UP)
         # self.play(Transform(display_text, display_text_new))
-        # 
+        #
         # self.wait(1)
         #
         # cones = self.gen_x_truncated_cone_riemann(weirdfunc, 0, 5, 5, axes)
@@ -121,20 +121,20 @@ class SurfaceArea(ThreeDScene):
         # surface = Group(surface)
         #
         # self.play(Transform(surface, riemann))
-        # 
+        #
         # self.wait(2)
-        # 
+        #
         # display_text_2 = MathTex(r"\text{Surface Area}\approx \sum_{i=1}^{n} \text{Area of Slant}")
         # display_text_2.scale(0.7)
         # display_text_2.next_to(display_text, DOWN)
         # self.add_fixed_in_frame_mobjects(display_text_2)
         # self.play(Write(display_text_2))
-        # 
+        #
         # self.wait(2)
         #
-        # cone = Group(cones[1])
+        # individual_cone = Group(cones[1])
         # self.play(
-        #     Transform(surface, cone),
+        #     Transform(surface, individual_cone),
         # )
         #
         # self.play(
@@ -145,11 +145,8 @@ class SurfaceArea(ThreeDScene):
         
         # if removing surface, uncomment below
         cones = self.gen_x_truncated_cone_riemann(weirdfunc, 0, 5, 5, axes)
-        cone = cones[1]
-        self.play(
-            Create(cone),
-            # Unwrite(label)
-        )
+        individual_cone = cones[1]
+        self.add(individual_cone)
         # end uncomment below
 
         # comment to remove spinning around individual cone
@@ -168,7 +165,7 @@ class SurfaceArea(ThreeDScene):
             theta = -90 * DEGREES, 
             zoom = 0.8,
             run_time = 1.5,
-            frame_center = axes.c2p(1.5, 0, 0),
+            frame_center = axes.c2p(2.5, 0, 0),
         )
         self.set_camera_orientation(zoom=0.8)
         self.stop_ambient_camera_rotation()
@@ -190,8 +187,8 @@ class SurfaceArea(ThreeDScene):
         slant_vector_angle = math.atan((slant_line_end[1] - slant_line_start[1]) / (slant_line_end[0] - slant_line_start[0]))
         slant_vector = [-math.sin(slant_vector_angle), math.cos(slant_vector_angle), 0]
 
-        slant_height_brace = Brace(slant_line, slant_vector)
-        slant_height_brace_text = MathTex(r"S=\text{Slant Height}")
+        slant_height_brace = Brace(slant_line, slant_vector, color=YELLOW_B)
+        slant_height_brace_text = MathTex(r"S=\text{Slant Height}", color=YELLOW_B)
         slant_height_brace_text.move_to(slant_height_brace)
         slant_height_brace_text.shift(np.array(slant_vector) * 0.6)
 
@@ -205,9 +202,9 @@ class SurfaceArea(ThreeDScene):
         fake_rectangle_left = self.gen_rectangle(axes, 1, weirdfunc(1), 1, 0, WHITE)
         fake_rectangle_right = self.gen_rectangle(axes, 2, weirdfunc(2), 2, 0, WHITE)
         
-        cone_above_brace = BraceLabel(cone, r"H=\text{Height}", brace_direction=DOWN)
-        cone_left_brace = BraceLabel(fake_rectangle_left, r"R=\text{Outer radius}", brace_direction=LEFT, color=BLUE_A)
-        cone_left_brace.set_color(BLUE_A)
+        cone_above_brace = BraceLabel(individual_cone, r"H=\text{Height}", brace_direction=DOWN)
+        cone_left_brace = BraceLabel(fake_rectangle_left, r"R=\text{Outer radius}", brace_direction=LEFT, color=BLUE_B)
+        cone_left_brace.set_color(BLUE_B)
         cone_right_brace = BraceLabel(fake_rectangle_right, r"r=\text{Inner radius}", brace_direction=RIGHT, color=TEAL_C)
         cone_right_brace.set_color(TEAL_C)
 
@@ -224,7 +221,7 @@ class SurfaceArea(ThreeDScene):
 
         slant_area_formula = MathTex(r"\pi", "S", "(", "R", "+", "r", ")", tex_environment="gather*", color=WHITE)
         slant_area_formula.set_color_by_tex("S", YELLOW_B)
-        slant_area_formula.set_color_by_tex("R", BLUE_A)
+        slant_area_formula.set_color_by_tex("R", BLUE_B)
         slant_area_formula.set_color_by_tex("r", TEAL_C)
         slant_area_formula_equal.move_to(axes.c2p(4, -2, 0))
 
@@ -247,44 +244,106 @@ class SurfaceArea(ThreeDScene):
         xi_label.next_to(axes.c2p(1, -3, 0), DOWN, buff=0.2)
         xi_next_label.next_to(axes.c2p(2, -3, 0), DOWN, buff=0.2)
         
-        cone_above_brace_new = BraceLabel(cone, r"H=\Delta x", brace_direction=DOWN)
+        cone_above_brace_new = BraceLabel(individual_cone, r"H=\Delta x", brace_direction=DOWN)
         cone_left_brace_new = BraceLabel(fake_rectangle_left, r"R=f(x_i)", brace_direction=LEFT)
-        cone_left_brace_new.set_color(BLUE_A)
+        cone_left_brace_new.set_color(BLUE_B)
         cone_right_brace_new = BraceLabel(fake_rectangle_right, r"r=f(x_{i+1})", brace_direction=RIGHT)
         cone_right_brace_new.set_color(TEAL_C)
 
         self.wait(2)
 
         self.play(Transform(cone_above_brace, cone_above_brace_new))
-        self.wait(1)
+        self.wait(2)
 
         slant_area_formula_new = MathTex(r"\pi", "S", "(", "f(x_i)", "+", "r", ")", tex_environment="gather*")
         slant_area_formula_new.set_color_by_tex("S", YELLOW_B)
-        slant_area_formula_new.set_color_by_tex("f(x_i)", BLUE_A)
+        slant_area_formula_new.set_color_by_tex("f(x_i)", BLUE_B)
         slant_area_formula_new.set_color_by_tex("r", TEAL_C)
         slant_area_formula_new.next_to(slant_area_formula_equal, DOWN * 1.5)
         self.play(
             Transform(cone_left_brace, cone_left_brace_new),
             Transform(slant_area_formula, slant_area_formula_new)
         )
-        self.wait(1)
+        self.wait(2)
 
-        self.play(Transform(cone_right_brace, cone_right_brace_new))
+        slant_area_formula_new = MathTex(r"\pi", "S", "(", "f(x_i)", "+", "f(x_{i+1})", ")", tex_environment="gather*")
+        slant_area_formula_new.set_color_by_tex("S", YELLOW_B)
+        slant_area_formula_new.set_color_by_tex("f(x_i)", BLUE_B)
+        slant_area_formula_new.set_color_by_tex("f(x_{i+1})", TEAL_C)
+        slant_area_formula_new.next_to(slant_area_formula_equal, DOWN * 1.5)
+        self.play(
+            Transform(cone_right_brace, cone_right_brace_new),
+            Transform(slant_area_formula, slant_area_formula_new)
+        )
 
-        self.wait(1)
+        self.wait(4)
 
         fake_rectangle_slant = self.gen_rectangle(axes, 2, weirdfunc(1), 2, weirdfunc(2), WHITE)
-        cone_slant_brace = BraceLabel(fake_rectangle_slant, r"f(x_{i+1})-f(x_i)", brace_direction=RIGHT)
+        cone_slant_brace = Brace(fake_rectangle_slant, RIGHT)
+        cone_slant_brace_text = MathTex("f(x_{i+1})", "-", "f(x_i)")
+        cone_slant_brace_text.set_color_by_tex("f(x_i)", BLUE_B)
+        cone_slant_brace_text.set_color_by_tex("f(x_{i+1})", TEAL_C)
+        cone_slant_brace_text.next_to(cone_slant_brace, RIGHT)
+        self.play(
+            Write(cone_slant_brace),
+            Write(cone_slant_brace_text)
+        )
 
-        self.play(Write(cone_slant_brace))
+        self.wait(4)
 
-        self.wait(3)
-
-        slant_height_brace_text_new = MathTex(r"S=\sqrt{(\Delta x)^2 + \left(f(x_{i+1})-f(x_i)\right)^2}")
+        slant_height_brace_text_new = MathTex(r"S=\sqrt{(\Delta x)^2 + \left(f(x_{i+1})-f(x_i)\right)^2}", color=YELLOW_B)
         slant_height_brace_text_new.move_to(slant_height_brace)
         slant_height_brace_text_new.shift(np.array(slant_vector) * 0.8)
         slant_height_brace_text_new.shift(RIGHT * 2)
         self.play(Transform(slant_height_brace_text, slant_height_brace_text_new))
+
+        self.wait(1)
+
+        pythag_text = Tex(r"(Pythagorean\\theorem)", font_size=32, color=YELLOW_B)
+        pythag_text.to_corner(UL)
+        self.play(FadeIn(pythag_text))
+
+        self.wait(6)
+
+        self.play(FadeOut(pythag_text))
+
+        slant_area_formula_LHS_new = Tex("Slant Area")
+        slant_area_formula_equal_new = MathTex("=")
+        slant_area_formula_new = MathTex(r"\pi", r"\sqrt{(\Delta x)^2 + \left(f(x_{i+1})-f(x_i)\right)^2}", "(", "f(x_i)", "+", "f(x_{i+1})", ")", tex_environment="gather*")
+
+        slant_area_formula_new.set_color_by_tex("f(x_i)", BLUE_B)
+        slant_area_formula_new.set_color_by_tex("f(x_{i+1})", TEAL_C)
+        slant_area_formula_new.set_color_by_tex(r"\Delta", YELLOW_B)
+
+        slant_area_formula_equal_new.move_to(axes.c2p(3, -2, 0))
+        slant_area_formula_LHS_new.next_to(slant_area_formula_equal_new, UP * 1.5)
+        slant_area_formula_new.next_to(slant_area_formula_equal_new, DOWN * 1.5)
+
+        individual_cone_new = individual_cone.copy()
+        individual_cone_new.set_opacity(0.2)
+        self.play(
+            FadeOut(y_label),
+            FadeOut(z_label),
+            Unwrite(cone_above_brace),
+            Transform(individual_cone, individual_cone_new),
+            Transform(slant_area_formula_LHS, slant_area_formula_LHS_new),
+            Transform(slant_area_formula_equal, slant_area_formula_equal_new),
+            Transform(slant_area_formula, slant_area_formula_new),
+        )
+
+        slant_formula_group = Group(
+            slant_area_formula_LHS,
+            slant_area_formula_equal,
+            slant_area_formula,
+        )
+
+        slant_formula_box = Rectangle(width=slant_formula_group.width + 0.25, height=slant_formula_group.height + 0.25)
+        slant_formula_box.move_to(slant_formula_group)
+        self.add_fixed_in_frame_mobjects(slant_formula_box)
+        self.play(ChangeSpeed(Create(slant_formula_box), speedinfo={0: 0.75}))
+
+        self.wait(4)
+        self.play(ChangeSpeed(Uncreate(slant_formula_box), speedinfo={0: 0.75}))
 
         self.wait(2)
 
