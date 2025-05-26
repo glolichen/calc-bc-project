@@ -102,6 +102,7 @@ class SurfaceArea(ThreeDScene):
             checkerboard_colors = [PEDDIE_BLUE, PEDDIE_GOLD]
         )
         self.play(Create(surface))
+        self.play(FadeOut(function_plot), FadeOut(label))
         self.wait(1)
 
         display_text = Tex("How to find the surface area of this surface?")
@@ -172,10 +173,6 @@ class SurfaceArea(ThreeDScene):
         self.stop_ambient_camera_rotation()
 
         self.wait(1)
-        self.play(
-            FadeOut(function_plot),
-            FadeOut(label)
-        )
         
         # comment to skip slant height explanation
         slant_line_start = axes.c2p(1, weirdfunc(1), 0),
@@ -281,7 +278,7 @@ class SurfaceArea(ThreeDScene):
 
         fake_rectangle_slant = self.gen_rectangle(axes, 2, weirdfunc(1), 2, weirdfunc(2), WHITE)
         cone_slant_brace = Brace(fake_rectangle_slant, RIGHT)
-        cone_slant_brace_text = MathTex("f(x_{i+1})", "-", "f(x_i)")
+        cone_slant_brace_text = MathTex("|", "f(x_{i+1})", "-", "f(x_i)", "|")
         cone_slant_brace_text.set_color_by_tex("f(x_i)", BLUE_B)
         cone_slant_brace_text.set_color_by_tex("f(x_{i+1})", TEAL_C)
         cone_slant_brace_text.next_to(cone_slant_brace, RIGHT)
@@ -505,7 +502,7 @@ class SurfaceArea(ThreeDScene):
                 Transform(surface, surface_new),
                 Transform(cone_under_dx_label, cone_under_dx_label_new)
             )
-            self.wait(1)
+            self.wait(0.7)
             
         surface_area_approx_text_new = MathTex(
             r"\text{SA}=\lim_{n\to\infty}\sum_{i=1}^{n}\pi\Delta x\sqrt{1+\left(\frac{f(x_i+\Delta x)-f(x_i)}{\Delta x}\right)^2}(f(x_i)+f(x_i+\Delta x))"
