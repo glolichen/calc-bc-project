@@ -1,6 +1,0 @@
-# This file is used internally by FFMPEG.
-file 'file:/home/jayden/Desktop/peddie/math/manim/media/videos/main/480p15/partial_movie_files/Axes3DExample/3545562872_1170048281_223132457.mp4'
-file 'file:/home/jayden/Desktop/peddie/math/manim/media/videos/main/480p15/partial_movie_files/Axes3DExample/335104003_2230675760_1927986955.mp4'
-file 'file:/home/jayden/Desktop/peddie/math/manim/media/videos/main/480p15/partial_movie_files/Axes3DExample/379070402_26118005_2423253974.mp4'
-file 'file:/home/jayden/Desktop/peddie/math/manim/media/videos/main/480p15/partial_movie_files/Axes3DExample/821469253_2552058153_71329528.mp4'
-file 'file:/home/jayden/Desktop/peddie/math/manim/media/videos/main/480p15/partial_movie_files/Axes3DExample/314525540_3168159723_1019256437.mp4'
