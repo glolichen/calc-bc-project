@@ -90,6 +90,7 @@ class Shell(ThreeDScene):
 
         self.set_camera_orientation(zoom=0.8)
 
+        # COMMENT TO SKIP EXPLANATION OF WHY DISC DOESN'T WORK
         self.play(
             FadeIn(axes),
             FadeIn(x_label),
@@ -103,9 +104,9 @@ class Shell(ThreeDScene):
         
         surface = Surface(
             lambda u, v: axes.c2p(
-                v * np.cos(u),    # x = r cos(u)
+                v * np.cos(u),
                 weirdfunc(v),
-                v * np.sin(u)     # z = r sin(u)
+                v * np.sin(u)
             ),
             u_range = [0, 2 * PI],
             v_range = [0, 4],
@@ -206,7 +207,7 @@ class Shell(ThreeDScene):
         self.add_fixed_in_frame_mobjects(label_new_new)
         self.play(FadeOut(label_new), FadeIn(label_new_new))
         
-        self.wait(4)
+        self.wait(1)
 
         radius_brace_label3 = MathTex("f^{-1}(y)", "=", r"\text{Radius}")
         radius_brace_label3.set_color_by_tex("y", BLUE)
@@ -217,9 +218,67 @@ class Shell(ThreeDScene):
         radius_brace_label3.shift(LEFT * need_move)
         self.add_fixed_in_frame_mobjects(radius_brace_label3)
         self.play(FadeOut(radius_brace_label2), FadeIn(radius_brace_label3))
-        self.wait(4)
+        self.wait(2)
         
-        # self.wait(4)
-        # self.gen_rec
+        disc_method_integral_group = Group(
+            disc_method_integral,
+            radius_brace,
+            radius_brace_label3
+        )
+        
+        disc_method_integral_new = MathTex(r"V=\pi\int_{0}^{3}(", r"f^{-1}(y)", r")^2\,\mathrm dy")
+        disc_method_integral_new.set_color_by_tex("f", BLUE)
+        disc_method_integral_new.to_corner(UR)
+        self.play(
+            Transform(disc_method_integral_group, Group(disc_method_integral_new)), 
+            FadeOut(is_invertible_text)
+        )
+        self.wait(0.5)
 
+        disc_method_formula_box = Rectangle(width=disc_method_integral_new.width + 0.5, height=disc_method_integral_new.height + 0.5)
+        self.add_fixed_in_frame_mobjects(disc_method_formula_box)
+        disc_method_formula_box.move_to(disc_method_integral_new)
+        self.play(ChangeSpeed(Create(disc_method_formula_box), speedinfo={0: 0.75}))
+        self.wait(2)
+        
+        disc_method_bad_text = Tex(r"\textbf{does not work if \\ $f$ cannot be inverted.}", color=RED)
+        disc_method_bad_text.next_to(disc_method_text, DOWN)
+        self.add_fixed_in_frame_mobjects(disc_method_bad_text)
+        self.play(Write(disc_method_bad_text))
+        self.wait(6)
+    
+        self.play(
+            Unwrite(disc_method_text),
+            Unwrite(disc_method_bad_text),
+            Uncreate(disc_method_formula_box),
+            FadeOut(disc_method_integral_group),
+            Unwrite(label_new_new)
+        )
+        self.play(FadeOut(individual_cylinder))
+        # END COMMENT
+
+        surface = Surface(
+            lambda u, v: axes.c2p(
+                v * np.cos(u),
+                weirdfunc(v),
+                v * np.sin(u)
+            ),
+            u_range = [0, 2 * PI],
+            v_range = [0, 4],
+            checkerboard_colors = [PEDDIE_BLUE, PEDDIE_GOLD]
+        )
+        surface.set_opacity(0.5)
+
+        # IF COMMENT ABOVE UNCOMMENT BELOW
+        self.set_camera_orientation(phi=60 * DEGREES, theta=45 * DEGREES, gamma=115 * DEGREES, zoom=0.7, frame_center=axes.c2p(0, 1.5, 0), run_time=1.5)
+        # END UNCOMMENT
+        
+        self.wait(1)
+
+        self.play(ChangeSpeed(Create(surface), speedinfo={0: 0.5}))
+        shell_text = Tex(r"We can use \underline{cylindrical shells} instead.")
+        shell_text.to_edge(UP)
+        self.add_fixed_in_frame_mobjects(shell_text)
+        self.play(Write(shell_text))
+        
         self.wait(4)
