@@ -182,7 +182,7 @@ class Shell(ThreeDScene):
         
         self.wait(2)
 
-        temp_cylinder = self.gen_y_axis_parallel_cylinder(axes, 0, 3 / 9, 2.5 / 2, 2.5 / 2, 3 / 9, WHITE)
+        temp_cylinder = self.gen_y_axis_parallel_cylinder(axes, 0, 3 / 9, 2.5 / 2, 2.5 / 2, 3 / 9, WHITE, True)
         radius_brace = Brace(temp_cylinder, UP, color=YELLOW_B)
         radius_brace.rotate(90 * DEGREES, Y_AXIS, axes.c2p(0, 3 / 9, 2.5 / 2))
         
@@ -288,14 +288,14 @@ class Shell(ThreeDScene):
         surface.set_opacity(0.75)
 
         # IF COMMENT ABOVE UNCOMMENT BELOW
-        self.play(
-            FadeIn(axes),
-            FadeIn(x_label),
-            FadeIn(y_label),
-            FadeIn(z_label),
-            Write(function_plot)
-        )
-        self.move_camera(phi=60 * DEGREES, theta=45 * DEGREES, gamma=115 * DEGREES, zoom=0.7, frame_center=axes.c2p(0, 1.5, 0), run_time=1.5)
+        # self.play(
+        #     FadeIn(axes),
+        #     FadeIn(x_label),
+        #     FadeIn(y_label),
+        #     FadeIn(z_label),
+        #     Write(function_plot)
+        # )
+        # self.move_camera(phi=60 * DEGREES, theta=45 * DEGREES, gamma=115 * DEGREES, zoom=0.7, frame_center=axes.c2p(0, 1.5, 0), run_time=1.5)
         # END UNCOMMENT
         
         self.wait(1)
@@ -330,12 +330,12 @@ class Shell(ThreeDScene):
         cylinders = self.gen_y_shell_riemann(weirdfunc, 0, 4, 6, axes, True)
         for cylinder in cylinders:
             # COMMENT FOR FASTER RENDERING
-            # self.play(Create(cylinder))
-            # self.wait(0.4)
+            self.play(Create(cylinder))
+            self.wait(0.4)
             # END COMMENT
 
             # IF COMMENTING ABOVE UNCOMMENT
-            self.add(cylinder)
+            # self.add(cylinder)
             # END UNCOMMENT
         
         # COMMENT TO REMOVE TEXT
@@ -441,7 +441,7 @@ class Shell(ThreeDScene):
         height_text_new.to_corner(DR)
         self.play(Transform(height_text, height_text_new))
 
-        self.play(Unwrite(function_plot), FadeOut(surface))
+        self.play(Unwrite(function_plot), FadeOut(surface), Unwrite(height_brace))
         self.move_camera(phi=-90 * DEGREES, theta=90 * DEGREES, gamma=180 * DEGREES, zoom=0.7, frame_center=axes.c2p(0, dx / 2, 0), run_time=1.5)
         self.wait(1)
 
