@@ -618,12 +618,17 @@ class Shell(ThreeDScene):
             FadeOut(z_label),
             FadeOut(inside_brace),
             FadeOut(inside_brace_text),
+            FadeOut(inside_brace_text_new),
+            FadeOut(inside_brace_group),
             FadeOut(inside_label),
             FadeOut(outside_brace),
             FadeOut(outside_brace_text),
+            FadeOut(outside_brace_text_new),
+            FadeOut(outside_brace_group),
             FadeOut(outside_label),
             FadeOut(cross_section_area_text)
         )
+        self.remove(inside_arrow, outside_arrow)
         
         cross_section_area_text_new.generate_target()
         cross_section_area_text_new.target.move_to(axes.c2p(0, 0, 6))
